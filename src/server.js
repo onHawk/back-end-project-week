@@ -14,22 +14,25 @@ mongoose.promse = global.promise;
 mongoose
   .connect('mongodb://localhost/lambdanotes')
   .then(connect => {
-    console.log('===connected to mongo');
+    console.log('===connected to mongo===');
   })
   .catch(error => {
     console.log('error connecting to mongo');
   });
 
-const corsOptions = {};
+server.listen(port, () => {
+  console.log(`Server running on ${port}`);
+});
+
+// const corsOptions = {
+//   origin: 'http://localhost:3000',
+//   credentials: true,
+// };
 server.use(express.json());
 server.use(helmet());
 server.use(morgan('dev'));
 server.use(cors());
 
 routes(server);
-
-server.listen(port, () => {
-  console.log(`Server running on ${port}`);
-});
 
 module.exports = { server };

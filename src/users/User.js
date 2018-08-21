@@ -8,21 +8,21 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    lowercase: true
+    lowercase: true,
   },
   password: {
     type: String,
-    required: true
+    required: true,
   },
   notes: [
     {
       type: ObjectId,
-      ref: 'Note'
-    }
-  ]
+      ref: 'Note',
+    },
+  ],
 });
-// pre save hook
 
+// pre save hook
 userSchema.pre('save', function(next) {
   bcrypt.hash(this.password, 5, (err, hash) => {
     if (err) {
