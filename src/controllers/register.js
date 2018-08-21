@@ -1,5 +1,6 @@
 const User = require('../users/User.js');
 const bcrypt = require('bcrypt');
+const { makeToken } = require('../authenticate');
 
 const register = (req, res) => {
   const { username, password } = req.body;
@@ -8,10 +9,13 @@ const register = (req, res) => {
   user
     .save()
     .then(newUser => {
-      res.status(200).json(newUser);
+      const token = makeToken(newUser);
+      // console.log(token, '20');
+      res.status(200).json({ token });
     })
     .catch(err => {
-      res.status(500).json({ error: 'status code 500' });
+      console.log('USERNAME EXISTS');
+      res.status(500).json(err);
     });
 };
 
