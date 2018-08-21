@@ -34,13 +34,13 @@ const localStrategy = new LocalStrategy(function(username, password, done) {
     if (!user) {
       done(null, false);
     }
-    user.verifyPassword(password, function(err, isValid) {
+    user.checkPassword(password, function(err, isValid) {
       if (err) {
         return done(err);
       }
       if (isValid) {
-        const { _id, username, race } = user;
-        return done(null, { _id, username, race });
+        const { _id, username } = user;
+        return done(null, { _id, username });
       }
       return done(null, false);
     });
@@ -54,6 +54,7 @@ const jwtOptions = {
 const jwtStrategy = new JwtStrategy(jwtOptions, function(payload, done) {
   User.findById(payload.sub)
     .select('-password')
+    .populate('notes')
     .then(user => {
       if (user) {
         done(null, user);
@@ -66,7 +67,7 @@ const jwtStrategy = new JwtStrategy(jwtOptions, function(payload, done) {
     });
 });
 passport.use(localStrategy);
-passport.use(jwtStrategy); // new line
+passport.use(jwtStrategy);
 
 const authenticate = passport.authenticate('local', { session: false });
 const protected = passport.authenticate('jwt', { session: false });
