@@ -14,5 +14,5 @@ module.exports = server => {
   server.route('/api/login').post(authenticate, login);
 
   server.route('/api/notes').get(authenticate, noteList);
-  server.route('/api/newnote').post(authenticate, newNote);
+  server.route('/api/newnote').post(protected, newNote);
 };

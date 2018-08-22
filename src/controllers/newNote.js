@@ -7,14 +7,24 @@ const newNote = (req, res) => {
 
   const note = new Note({ title, content });
 
-  note.save().then(added => {
-    const id = added._id;
-    const { username } = req.body;
-    User.findOneAndUpdate({ username }, { $push: { notes: id } }).then(() => {
-      console.log(username);
-      res.json(added);
+  note
+    .save()
+    .then(newNote => {
+      // const id = added._id;
+      const { _id } = req.user;
+      User.findOneAndUpdate(_id, { $addToSet: { notes: newNote._id } })
+        .populate('notes')
+        .then(added => {
+          console.log(added);
+          res.json(added);
+        })
+        .catch(err => {
+          res.send(err);
+        });
+    })
+    .catch(err => {
+      res.send(err);
     });
-  });
 };
 
 module.exports = { newNote };
