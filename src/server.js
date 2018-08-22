@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
 const helmet = require('helmet');
+const bodyParser = require('body-parser');
 
 const port = process.env.PORT || 5000;
 
@@ -28,6 +29,7 @@ server.listen(port, () => {
 //   origin: 'http://localhost:3000',
 //   credentials: true,
 // };
+server.use(bodyParser.json());
 server.use(express.json());
 server.use(helmet());
 server.use(morgan('dev'));
