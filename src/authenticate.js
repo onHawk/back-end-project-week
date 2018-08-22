@@ -7,7 +7,7 @@ const { secret } = require('./config');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 
-const { ExtractJwt } = require('passport-jwt');
+const ExtractJwt = require('passport-jwt').ExtractJwt;
 const JwtStrategy = require('passport-jwt').Strategy;
 
 function makeToken(user) {
