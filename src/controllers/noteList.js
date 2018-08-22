@@ -3,15 +3,7 @@ const User = require('../users/User.js');
 
 const noteList = (req, res) => {
   const { notes } = req.user;
-  Note.find({})
-    // .populate('notes', '-password')
-    .then(notes => {
-      console.log(notes);
-      res.json(notes);
-    })
-    .catch(err => {
-      res.json(err);
-    });
+  res.json(notes);
 };
 
 const oneNote = (req, res) => {
